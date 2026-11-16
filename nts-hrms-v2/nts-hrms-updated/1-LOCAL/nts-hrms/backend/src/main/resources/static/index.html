@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Login | NTS Portal – Narayanadri Technology Solutions</title>
+<link rel="icon" type="image/png" id="fav">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f4f7fb;--card:#fff;--soft:#f1f5fb;--tx:#0f1b2d;--mu:#5b6b80;--bd:#dde5ef;--ac:#0b2a5e;--navy:#0b2a5e;--navd:#06173a;--gold:#e8a41c;--art:url(login-bg.svg);--ok:#15803d;--bad:#b91c1c;--wn:#b45309}
+@media(prefers-color-scheme:dark){:root{--bg:#0a1220;--card:#0f1c33;--soft:#0a1527;--tx:#e6edf7;--mu:#9fb0c7;--bd:#22345a;--ac:#2563c9;--ok:#4ade80;--bad:#f87171;--wn:#fbbf24}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font:15px/1.5 Poppins,system-ui,sans-serif;min-height:100vh}
+body.in{background:var(--navd)}
+
+/* ===== branded scene: same navy / gold artwork as the login page, with logo + company name watermark on every screen ===== */
+.scene{display:none}
+body.in .scene{display:block;position:fixed;inset:0;z-index:-1;background:var(--navd) var(--art) center/cover no-repeat}
+body.in .scene::before{content:"";position:absolute;inset:0;background:url(nts-pattern.svg) 0 0/460px 300px repeat}
+body.in .scene::after{content:"";position:absolute;right:2vw;bottom:2vh;width:min(560px,72vw);aspect-ratio:4/3;background:url(logo-white.png) center/contain no-repeat;opacity:.08}
+
+/* ===== header ===== */
+.top{position:sticky;top:0;z-index:5;display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding:10px 24px;color:#fff;background:rgba(6,23,58,.9);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-bottom:3px solid var(--gold);box-shadow:0 6px 24px rgba(0,0,0,.35)}
+.brand{display:flex;align-items:center;gap:12px;min-width:0}
+.brand .lg{background:#fff;border-radius:10px;padding:3px 6px;display:block;flex:none;box-shadow:0 2px 10px rgba(0,0,0,.3)}.brand .lg img{height:42px;display:block}
+.brand .bn{display:flex;flex-direction:column;line-height:1.2;min-width:0}.brand .bn b{font-size:16px;letter-spacing:.2px;white-space:nowrap}.brand .bn small{color:var(--gold);font-weight:600;font-size:11px;letter-spacing:1.6px;text-transform:uppercase}
+.top .wl{color:#cfdcf3;text-decoration:none;font-weight:600;font-size:13px;margin-left:6px;padding:6px 10px;border-radius:8px}.top .wl:hover{background:#ffffff1c;color:#fff}
+.sp{flex:1}
+.usr{display:flex;align-items:center;gap:10px}.usr .av{width:36px;height:36px;border-radius:50%;background:var(--gold);color:var(--navd);font-weight:700;display:grid;place-items:center;font-size:15px;flex:none}
+.usr div{display:flex;flex-direction:column;line-height:1.2}.usr b{font-size:14px}.usr small{color:#b9c9e6;font-size:11.5px}
+.hg{background:#ffffff14;border:1px solid #ffffff40;color:#fff;border-radius:8px;padding:7px 12px;font:inherit;font-size:13px;font-weight:600;cursor:pointer}.hg:hover{background:#ffffff2b}
+
+/* ===== tabs ===== */
+.tabs{display:flex;gap:8px;max-width:1100px;margin:20px auto 0;padding:0 20px;overflow-x:auto}
+.tabs button{flex:none;background:#ffffff14;border:1px solid #ffffff2e;color:#d7e3f8;padding:9px 20px;border-radius:10px;font:inherit;font-weight:600;cursor:pointer;border-bottom:3px solid transparent}
+.tabs button:hover{background:#ffffff26;color:#fff}.tabs .on{background:#fff;color:var(--navy);border-bottom-color:var(--gold)}
+
+main{max-width:1100px;margin:0 auto;padding:20px}
+
+/* ===== welcome banner ===== */
+.welcome{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap;color:#fff;margin:4px 0 22px}
+.welcome .eb{margin:0 0 2px;color:var(--gold);font-weight:700;font-size:12px;letter-spacing:3px;text-transform:uppercase}
+.welcome h1{margin:0;font-size:30px;line-height:1.2;letter-spacing:-.4px}.welcome h1 span{color:var(--gold)}
+.welcome p{margin:4px 0 0;color:#cfdcf3;font-size:14px}
+.welcome .dt{background:#ffffff14;border:1px solid #ffffff2e;border-radius:12px;padding:8px 14px;font-size:13px;font-weight:600;color:#e6edf7}
+
+/* ===== cards, stats, tables, controls ===== */
+.card{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:20px;margin-bottom:16px;box-shadow:0 10px 30px rgba(3,10,30,.3)}
+.card h3{margin:0 0 14px;font-size:16px;display:flex;align-items:center;gap:9px}.card h3::before{content:"";width:4px;height:17px;border-radius:2px;background:var(--gold)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin-bottom:16px}
+.stat{background:var(--card);border:1px solid var(--bd);border-left:4px solid var(--gold);border-radius:12px;padding:14px 16px;box-shadow:0 8px 22px rgba(3,10,30,.25)}.stat b{display:block;font-size:28px;line-height:1.2}.stat span{color:var(--mu);font-size:13px;font-weight:500}
+.b{background:var(--ac);color:#fff;border:0;border-bottom:3px solid var(--gold);border-radius:8px;padding:8px 15px;font:inherit;font-weight:600;cursor:pointer}.b:hover{filter:brightness(1.15)}
+.g{background:none;border:1px solid var(--bd);color:var(--tx);border-radius:8px;padding:6px 12px;font:inherit;font-weight:600;cursor:pointer}.g:hover{border-color:var(--gold);background:var(--soft)}
+button:disabled{opacity:.45;cursor:not-allowed;filter:none}
+input,select{font:inherit;padding:9px 11px;border:1px solid var(--bd);border-radius:8px;background:var(--soft);color:var(--tx)}input:focus,select:focus{outline:2px solid var(--gold);outline-offset:0}
+.row{display:flex;gap:12px;flex-wrap:wrap;align-items:end}.row label{display:flex;flex-direction:column;font-size:12px;color:var(--mu);gap:3px;font-weight:600}
+.tw{overflow-x:auto}table{width:100%;border-collapse:collapse;font-size:14px}th,td{padding:10px 12px;border-bottom:1px solid var(--bd);text-align:left;white-space:nowrap}
+th{color:var(--mu);font-size:11.5px;text-transform:uppercase;letter-spacing:.8px;background:var(--soft)}tbody tr:hover td,tr:hover>td{background:var(--soft)}
+.P{color:var(--ok)}.A{color:var(--bad)}.L{color:var(--wn)}.tag{font-weight:700;font-size:12px;border:1px solid;border-radius:99px;padding:2px 10px}
+main>.row label{color:#cfdcf3}.tag{margin-right:6px}
+.err{color:var(--bad);min-height:20px;font-size:13px}.card.err{min-height:0}.hint{font-size:12px;color:var(--mu)}
+
+/* ===== footer ===== */
+.pf{max-width:1100px;margin:6px auto 0;padding:22px 20px 34px;display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;color:#9fb6dc;font-size:12.5px;text-align:center;border-top:1px solid #ffffff1f}
+.pf .lg{background:#fff;border-radius:8px;padding:2px 5px;display:block}.pf .lg img{height:28px;display:block}.pf b{color:#fff}.pf em{font-style:normal;color:var(--gold);letter-spacing:2px;font-weight:700;font-size:11px}
+
+/* ===== payslip (always white, printable) ===== */
+.modal{position:fixed;inset:0;background:rgba(3,10,30,.7);overflow:auto;display:flex;justify-content:center;padding:20px;z-index:9}
+.slip{background:#fff;color:#111;width:100%;max-width:700px;border-radius:12px;padding:26px;align-self:flex-start;border-top:6px solid var(--navy);box-shadow:0 20px 60px rgba(0,0,0,.5)}
+.slip td,.slip th{color:#111;border-color:#ddd;background:none}.slip th{background:#f1f5fb;color:#334}.slip tr:hover>td{background:none}
+.slip .hd{display:flex;justify-content:space-between;align-items:center;gap:14px;border-bottom:3px solid var(--gold);padding-bottom:12px;margin-bottom:14px}
+.slip .hd .co{display:flex;align-items:center;gap:12px}.slip .hd .co img{height:56px;display:block}.slip .hd h3{margin:0;color:var(--navy);font-size:17px}.slip .hd h3::before{display:none}
+.slip .net{background:#ecf3ff;border-left:5px solid var(--gold);padding:10px 12px;font-weight:700;text-align:right;margin-top:12px;color:var(--navy);-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.slip .g{color:#111}
+@media print{body *{visibility:hidden}.slip,.slip *{visibility:visible}.modal{position:static;padding:0;background:none}.slip{position:absolute;left:0;top:0;box-shadow:none;border-radius:0}.np{display:none!important}body.in{background:#fff}.scene{display:none!important}}
+
+@media(max-width:860px){.top{padding:10px 14px}.brand .bn b{font-size:13.5px;white-space:normal}.brand .lg img{height:34px}.usr small{display:none}.welcome h1{font-size:24px}.tabs{margin-top:14px;padding:0 14px}main{padding:14px}}
+@media(max-width:520px){.top .wl{display:none}.hg{padding:6px 9px;font-size:12px}}
+
+/* ===== login screen (unchanged) ===== */
+.auth{display:grid;grid-template-columns:1.15fr 1fr;min-height:100vh}
+.hero{background:#0b2a5e var(--art) center/cover no-repeat;color:#fff;display:flex;flex-direction:column;justify-content:center;padding:56px 64px;position:relative}
+.hero h1{font-size:40px;line-height:1.15;margin:0 0 14px;letter-spacing:-.5px}.hero h1 span{color:#e8a41c}
+.hero p{max-width:460px;color:#cfdcf3;font-size:16px;margin:0 0 28px}
+.hero ul{list-style:none;padding:0;margin:0;display:grid;gap:12px}
+.hero li{display:flex;gap:12px;align-items:center;font-weight:600}.hero li i{width:34px;height:34px;border-radius:10px;background:#ffffff1c;border:1px solid #ffffff33;display:grid;place-items:center;font-style:normal}
+.tag4{margin-top:34px;font-size:12px;letter-spacing:3px;color:#e8a41c;font-weight:700}
+.panel{display:flex;align-items:center;justify-content:center;padding:32px;background:var(--bg)}
+.box{width:100%;max-width:400px}.box .lg{background:#fff;border-radius:14px;padding:10px;display:block;margin:0 auto 22px;width:190px;box-shadow:0 6px 24px #0b2a5e22}.box .lg img{width:100%;display:block}
+.box h2{margin:0 0 4px;font-size:24px;text-align:center}.box .sub{color:var(--mu);text-align:center;margin:0 0 20px}
+.box input{width:100%;margin-bottom:12px;padding:11px 12px}.box .go{width:100%;padding:11px;background:#0b2a5e;color:#fff;border:0;border-radius:8px;font:inherit;font-weight:700;cursor:pointer;border-bottom:3px solid #e8a41c}.box .go:hover{background:#12397d}
+.box .foot{margin-top:16px;text-align:center;font-size:13px}.box .foot a{color:#0b2a5e;font-weight:600}.box .demo{margin-top:12px;font-size:11px;color:var(--mu);text-align:center}
+@media(prefers-color-scheme:dark){.box .foot a{color:#9cc2ff}}
+@media(max-width:860px){.auth{grid-template-columns:1fr}.hero{padding:28px 24px}.hero h1{font-size:26px}.hero p,.hero ul{display:none}.tag4{margin-top:0}.panel{align-items:flex-start;padding:24px 16px}}
+.slip.inv{max-width:780px;padding:0;border:1.5px solid #111;border-radius:0;font-size:13px;color:#111}
+.inv .ih{display:flex;align-items:center;gap:16px;padding:12px 16px;border-bottom:1.5px solid #111}.inv .ih img{height:58px;display:block}.inv .ih div{flex:1;text-align:center}.inv .ih h3{margin:0;font-size:20px;color:#111}.inv .ih p{margin:2px 0 0;font-size:11px;color:#333}
+.inv .it{text-align:center;font-weight:700;padding:7px;border-bottom:1.5px solid #111;font-size:14px}
+.inv table.ig{width:100%;border-collapse:collapse;margin:0}.inv .ig th,.inv .ig td{border:1px solid #111;padding:5px 8px;text-align:left;white-space:normal;font-size:12.5px;background:none;text-transform:none;letter-spacing:0;color:#111}.inv .ig th{font-weight:700}.inv .ig .r{text-align:right}.inv .tt td{font-weight:700}
+.inv .nt{margin-top:16px!important}.inv .nt td{background:#e6f1e1;font-weight:700;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.inv .ia{text-align:right;padding:36px 16px 8px;font-size:12px}.inv .if{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;padding:8px 16px;border-top:1px solid #111;font-size:10.5px;color:#333}.inv .np{padding:12px 16px}
+@media print{@page{size:A4;margin:0}.slip.inv{margin:10mm;width:calc(100% - 20mm);max-width:none;box-shadow:none}}
+</style></head><body><div class="scene"></div><div id="app"></div>
+<script>
+/* ===== CONFIGURATION (LOCAL) =====
+   This copy is served BY the Spring Boot backend, so API is empty (same origin). */
+const API=window.HRMS_API||'',SITE='https://narayanadri-tech.netlify.app/',SHOW_DEMO=true;
+const LOGO='logo.png';
+document.getElementById("fav").href=LOGO;
+const MN=['January','February','March','April','May','June','July','August','September','October','November','December'];
+const $=id=>document.getElementById(id),esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const pad=n=>String(n).padStart(2,'0'),loc=d=>d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());
+const inr=n=>'₹'+Math.round(n).toLocaleString('en-IN'),ml=m=>MN[+m.slice(5)-1]+' '+m.slice(0,4);
+let tok=sessionStorage.getItem('nts_t'),me=null,tab='att',month=loc(new Date()).slice(0,7),date=loc(new Date()),modal='',cache={};
+async function api(p,method='GET',body){
+ if(/YOUR-BACKEND/.test(API))throw new Error('Backend URL is not set yet. Open this file and set API near the top (see DEPLOY-PROD.md).');
+ let r;try{r=await fetch(API+p,{method,headers:{'Content-Type':'application/json',...(tok?{Authorization:'Bearer '+tok}:{})},body:body?JSON.stringify(body):undefined})}catch(e){throw new Error('Cannot reach the server at '+(API||location.origin)+'. Check that the backend is running and that this site is allowed in CORS_ORIGINS.')}
+ if(r.status===401&&tok){logout();throw new Error('Session expired')}
+ if(!r.ok){const e=await r.json().catch(()=>({}));throw new Error(e.message||'Error '+r.status)}return r.json()}
+function logout(){tok=null;me=null;sessionStorage.removeItem('nts_t');draw()}
+async function login(){try{const r=await api('/api/auth/login','POST',{userId:$('uid').value,password:$('pw').value});tok=r.token;me=r.user;sessionStorage.setItem('nts_t',tok);tab=me.role==='ADMIN'?'att':'att';draw()}catch(e){$('err').textContent=e.message}}
+async function draw(){
+ if(tok&&!me){try{me=await api('/api/me')}catch{}}
+ document.body.className=me?'in':'out';
+ if(!me){$('app').innerHTML=`<div class="auth"><section class="hero"><h1>Learn. Build. <span>Grow.</span><br>Succeed.</h1><p>One portal for Narayanadri Technology Solutions: attendance, payslips and records for our students, interns and team.</p><ul><li><i>🗓</i>Daily attendance, check in and out</li><li><i>💼</i>Payslips generated every month end</li><li><i>🔒</i>Secure access, accounts created by HR</li></ul><div class="tag4">TIRUPATI · BENGALURU · NELLORE</div></section>
+ <section class="panel"><div class="box"><span class="lg"><img src="${LOGO}" alt="Narayanadri Technology Solutions"></span><h2>Welcome back</h2><p class="sub">Sign in with your NTS ID</p><input id="uid" placeholder="User ID" autocomplete="username"><input id="pw" type="password" placeholder="Password" autocomplete="current-password" onkeydown="if(event.key==='Enter')login()"><button class="go" onclick="login()">Sign in</button><div class="err" id="err"></div><div class="foot"><a href="${SITE}">← Back to website</a></div>${SHOW_DEMO?'<div class="demo">Demo: STU001/stu123 · EMP001/emp123 · ADMIN/admin123</div>':''}</div></section></div>`;return}
+ const adm=me.role==='ADMIN',emp=me.role==='EMPLOYEE';
+ const tabs=adm?[['att','Attendance'],['ppl','People'],['pay','Payroll']]:emp?[['att','My attendance'],['pay','Payslips']]:[['att','My attendance']];
+ let body='';try{body=await page(adm,emp)}catch(e){body=`<div class="card err">${esc(e.message)}</div>`}
+ const h=new Date().getHours(),hi=h<12?'Good morning':h<17?'Good afternoon':'Good evening',
+  RL={ADMIN:'HR Administrator',EMPLOYEE:'Employee',STUDENT:'Student',INTERN:'Intern'}[me.role]||me.role,
+  sub=[RL,me.branch?me.branch+' branch':'',me.course||me.designation||''].filter(Boolean).map(esc).join(' · '),
+  today=new Date().toLocaleDateString('en-IN',{weekday:'long',day:'numeric',month:'long',year:'numeric'}),
+  first=esc(me.name||'');
+ $('app').innerHTML=`<header class="top"><div class="brand"><span class="lg"><img src="${LOGO}" alt="NTS logo"></span><div class="bn"><b>Narayanadri Technology Solutions</b><small>NTS Portal</small></div></div><div class="sp"></div><div class="usr"><span class="av">${esc((me.name||'?').trim().charAt(0).toUpperCase())}</span><div><b>${esc(me.name)}</b><small>${esc(RL)} · ${esc(me.userId)}</small></div></div><button class="hg" onclick="chpw()">Change password</button><button class="hg" onclick="logout()">Sign out</button></header>
+ <nav class="tabs">${tabs.map(([k,l])=>`<button class="${tab===k?'on':''}" onclick="tab='${k}';draw()">${l}</button>`).join('')}</nav>
+ <main><section class="welcome"><div><p class="eb">${hi}</p><h1>Welcome, <span>${first}</span></h1><p>${sub}</p></div><div class="dt">${today}</div></section>${body}</main>
+ <footer class="pf"><span class="lg"><img src="${LOGO}" alt=""></span><span><b>Narayanadri Technology Solutions</b> · Software Development &amp; Training</span><em>LEARN | BUILD | GROW | SUCCEED</em><span>Bengaluru · Tirupati · Nellore</span></footer>${modal}`}
+const tag=s=>`<span class="tag ${s}">${{P:'Present',L:'Leave',A:'Absent'}[s]}</span>`;
+async function page(adm,emp){
+ if(adm){if(tab==='att')return adminAtt();if(tab==='ppl')return people();return adminPay()}
+ return tab==='pay'?empPay():selfAtt()}
+async function mark(k){try{await api('/api/attendance/check-'+k,'POST')}catch(e){alert(e.message)}draw()}
+async function selfAtt(){const l=await api('/api/attendance/me?month='+month),t=loc(new Date()),td=l.find(x=>x.attDate===t);
+ const c=s=>l.filter(x=>x.status===s).length,P=c('P'),L=c('L'),A=c('A'),n=P+L+A,pct=n?Math.round((P+L)/n*100):0;
+ return`<div class="card"><h3>Today</h3><div class="row"><button class="b" onclick="mark('in')" ${td&&td.checkIn?'disabled':''}>Check in</button><button class="b" onclick="mark('out')" ${!td||!td.checkIn||td.checkOut?'disabled':''}>Check out</button><span>${td?tag(td.status)+' In '+(td.checkIn||'–')+' · Out '+(td.checkOut||'–'):'Not marked yet'}</span></div></div>
+ <div class="row" style="margin-bottom:12px"><label>Month<input type="month" value="${month}" onchange="month=this.value;draw()"></label></div>
+ <div class="grid"><div class="stat"><b>${pct}%</b><span>Attendance</span></div><div class="stat"><b>${P}</b><span>Present</span></div><div class="stat"><b>${L}</b><span>Leave</span></div><div class="stat"><b>${A}</b><span>Absent</span></div></div>
+ <div class="card tw"><table><tr><th>Date</th><th>Status</th><th>In</th><th>Out</th></tr>${l.sort((a,b)=>b.attDate.localeCompare(a.attDate)).map(x=>`<tr><td>${x.attDate}</td><td>${tag(x.status)}</td><td>${x.checkIn||'–'}</td><td>${x.checkOut||'–'}</td></tr>`).join('')||'<tr><td colspan=4>No records.</td></tr>'}</table></div>`}
+const CO={name:'Narayanadri Technology Solutions',addr:'1st Floor, Madhura Nagar, Opposite to Aakruthi Hospital, Tirupati - 517501',contact:'Ph: +91 78929 28830 | hr@narayanadritech.com | www.narayanadritechnology.com'};
+const nf=v=>Math.round(+v||0).toLocaleString('en-IN');
+function words(n){n=Math.round(+n||0);if(!n)return'Zero';const a=['','One','Two','Three','Four','Five','Six','Seven','Eight','Nine','Ten','Eleven','Twelve','Thirteen','Fourteen','Fifteen','Sixteen','Seventeen','Eighteen','Nineteen'],b=['','','Twenty','Thirty','Forty','Fifty','Sixty','Seventy','Eighty','Ninety'],t=x=>x<20?a[x]:b[Math.floor(x/10)]+(x%10?' '+a[x%10]:''),h=x=>(x>99?a[Math.floor(x/100)]+' Hundred'+(x%100?' ':''):'')+(x%100?t(x%100):'');let r='';[[1e7,'Crore'],[1e5,'Lakh'],[1e3,'Thousand']].forEach(([v,l])=>{if(n>=v){r+=h(Math.floor(n/v))+' '+l+' ';n%=v}});if(n)r+=h(n);return r.trim()}
+function slip(p,u){const tot=+p.pf+ +p.pt+ +p.tds,dim=new Date(+p.payMonth.slice(0,4),+p.payMonth.slice(5),0).getDate();
+return`<div class="modal" onclick="if(event.target===this){modal='';draw()}"><div class="slip inv"><div class="ih"><img src="${LOGO}" alt="NTS"><div><h3>${CO.name}</h3><p>${CO.addr}</p><p>${CO.contact}</p></div></div>
+<div class="it">Pay slip for the month ${ml(p.payMonth)}</div>
+<table class="ig"><tr><th>Employee Name</th><td>${esc(u.name)}</td><th>Total days of month</th><td>${dim}</td></tr><tr><th>Employee Code</th><td>${esc(p.userCode)}</td><th>Working days</th><td>${p.workingDays}</td></tr><tr><th>Designation</th><td>${esc(u.designation)}</td><th>No of days paid for</th><td>${p.paidDays}</td></tr><tr><th>Location</th><td>${esc(u.branch)}</td><th>Loss of pay (LOP) days</th><td>${p.lopDays}</td></tr><tr><th>UAN</th><td>${esc(u.uan||'–')}</td><th>Annual CTC</th><td>${nf(p.annualCtc)}</td></tr><tr><th>Gross Salary</th><td colspan="3"><b>${nf(p.gross)}</b></td></tr></table>
+<table class="ig"><tr><th>Earnings (A)</th><th class="r">Amount (₹)</th><th>Deductions (B)</th><th class="r">Amount (₹)</th></tr><tr><td>Basic</td><td class="r">${nf(p.basic)}</td><td>Provident Fund</td><td class="r">${nf(p.pf)}</td></tr><tr><td>HRA</td><td class="r">${nf(p.hra)}</td><td>Professional Tax</td><td class="r">${nf(p.pt)}</td></tr><tr><td>Special Allowance</td><td class="r">${nf(p.specialAllowance)}</td><td>Income Tax / TDS</td><td class="r">${nf(p.tds)}</td></tr><tr class="tt"><td>Total Earnings (A)</td><td class="r">${nf(p.gross)}</td><td>Total Deductions (B)</td><td class="r">${nf(tot)}</td></tr></table>
+<table class="ig nt"><tr><th>Net Salary (A - B)</th><td class="r">${nf(p.net)}</td></tr><tr><th>Net salary (in words)</th><td>Rupees ${words(p.net)} Only</td></tr></table>
+<div class="ia">Authorized by</div><div class="if"><span>* This is a computer generated copy and requires no signature.</span><span><i>Strictly Confidential</i> | E-mail: hr@narayanadritech.com</span></div>
+<div class="np row"><button class="b" onclick="window.print()">Print / Save as PDF</button><button class="g" onclick="modal='';draw()">Close</button></div></div></div>`}
+function open_(i){modal=slip(cache.slips[i],cache.users?cache.users.find(u=>u.userId===cache.slips[i].userCode):me);draw()}
+async function empPay(){cache.slips=await api('/api/payslips/me');cache.users=[me];
+ return`<div class="card tw"><h3>My payslips</h3><table><tr><th>Month</th><th>Paid days</th><th>Gross</th><th>Net pay</th><th></th></tr>${cache.slips.map((p,i)=>`<tr><td>${ml(p.payMonth)}</td><td>${p.paidDays}/${p.workingDays}</td><td>${inr(p.gross)}</td><td><b>${inr(p.net)}</b></td><td><button class="b" onclick="open_(${i})">View</button></td></tr>`).join('')||'<tr><td colspan=5>No payslips yet – generated automatically at month end.</td></tr>'}</table></div>`}
+async function adminAtt(){const[u,a]=await Promise.all([api('/api/admin/users'),api('/api/admin/attendance?date='+date)]);
+ return`<div class="card"><h3>Attendance register</h3><div class="row" style="margin-bottom:12px"><label>Date<input type="date" value="${date}" onchange="date=this.value;draw()"></label></div><div class="tw"><table><tr><th>ID</th><th>Name</th><th>Type</th><th>Status</th><th>In / Out</th><th>Mark</th></tr>${u.filter(x=>x.role!=='ADMIN').map(x=>{const r=a.find(y=>y.userCode===x.userId);return`<tr><td>${x.userId}</td><td>${esc(x.name)}</td><td>${x.role}</td><td>${r?tag(r.status):'–'}</td><td>${r?(r.checkIn||'–')+' / '+(r.checkOut||'–'):'–'}</td><td>${['P','L','A'].map(s=>`<button class="g" onclick="setAtt('${x.userId}','${s}')">${s}</button>`).join(' ')}</td></tr>`}).join('')}</table></div></div>`}
+async function setAtt(userCode,status){try{await api('/api/admin/attendance','PUT',{userCode,date,status})}catch(e){alert(e.message)}draw()}
+async function people(){const u=await api('/api/admin/users');
+ return`<div class="card"><h3>Add student / intern / employee</h3><div class="row"><label>Name<input id="n1"></label><label>Type<select id="n2"><option value="STUDENT">Student</option><option value="INTERN">Intern</option><option value="EMPLOYEE">Employee</option></select></label><label>Branch<select id="n3" onchange="prev()"><option>Tirupati</option><option>Bengaluru</option><option>Nellore</option></select></label><label>Course / Domain / Designation<input id="n4"></label><label>Annual CTC ₹ (employees)<input id="n5" type="number" oninput="prev()" placeholder="e.g. 1500000"></label><label>UAN (employees)<input id="n7" maxlength="12" inputmode="numeric" placeholder="12-digit UAN"></label><label>Password<input id="n6" value="welcome123"></label><button class="b" onclick="addUser()">Add</button></div><div id="prev" style="margin-top:12px"></div></div>
+ <div class="card tw"><table><tr><th>ID</th><th>Name</th><th>Type</th><th>Branch</th><th>Course / Role</th><th>Annual CTC</th><th>UAN</th></tr>${u.filter(x=>x.role!=='ADMIN').map(x=>`<tr><td>${x.userId}</td><td>${esc(x.name)}</td><td>${x.role}</td><td>${esc(x.branch)}</td><td>${esc(x.course||x.designation)}</td><td>${x.annualCtc?inr(x.annualCtc):'–'}</td><td>${esc(x.uan||'–')}</td></tr>`).join('')}</table></div>`}
+async function prev(){const c=+$('n5').value,el=$('prev');if(!c){el.innerHTML='';return}try{const b=await api('/api/admin/salary/preview?ctc='+c+'&branch='+encodeURIComponent($('n3').value));el.innerHTML=`<div class="tw"><table><tr><th colspan=2>Monthly breakup for ${(c/100000).toFixed(2)} LPA</th><th colspan=2>Deductions</th></tr><tr><td>Basic</td><td>${inr(b.basic)}</td><td>Employee PF</td><td>${inr(b.employeePf)}</td></tr><tr><td>HRA</td><td>${inr(b.hra)}</td><td>Professional tax</td><td>${inr(b.pt)}</td></tr><tr><td>Special allowance</td><td>${inr(b.special)}</td><td>Income tax (TDS, new regime)</td><td>${inr(b.tds)}</td></tr><tr><td><b>Gross</b></td><td><b>${inr(b.gross)}</b></td><td><b>Net take-home</b></td><td><b>${inr(b.net)}</b></td></tr></table></div><p class="hint">Also part of CTC but not paid monthly: employer PF ${inr(b.employerPf)}, gratuity ${inr(b.gratuity)}${b.insurance?', insurance '+inr(b.insurance):''}.</p>`}catch(e){el.innerHTML='<span class="err">'+esc(e.message)+'</span>'}}
+async function addUser(){const t=$('n2').value,pw=$('n6').value||'welcome123';try{const u=await api('/api/admin/users','POST',{name:$('n1').value,role:t,branch:$('n3').value,course:t!=='EMPLOYEE'?$('n4').value:null,designation:t==='EMPLOYEE'?$('n4').value:null,annualCtc:+$('n5').value||null,uan:t==='EMPLOYEE'?($('n7').value.trim()||null):null,password:pw});alert('Account created.\nUser ID: '+u.userId+'\nTemporary password: '+pw+'\nShare these with the user. They can change the password after signing in.')}catch(e){alert(e.message)}draw()}
+async function chpw(){const o=prompt('Current password');if(o===null)return;const n=prompt('New password (minimum 6 characters)');if(!n)return;try{await api('/api/me/password','PUT',{oldPassword:o,newPassword:n});alert('Password changed.')}catch(e){alert(e.message)}}
+async function adminPay(){const[u,s]=await Promise.all([api('/api/admin/users'),api('/api/admin/payslips?month='+month)]);cache.slips=s;cache.users=u;
+ return`<div class="card"><h3>Payroll</h3><div class="row"><label>Month<input type="month" value="${month}" onchange="month=this.value;draw()"></label><button class="b" onclick="runPay()">Generate / regenerate payslips</button></div><p class="hint">Payslips are also generated automatically at 23:55 IST on the last day of each month.</p></div>
+ <div class="card tw"><table><tr><th>ID</th><th>Name</th><th>Paid days</th><th>Gross</th><th>Deductions</th><th>Net pay</th><th></th></tr>${s.map((p,i)=>{const x=u.find(y=>y.userId===p.userCode)||{};return`<tr><td>${p.userCode}</td><td>${esc(x.name)}</td><td>${p.paidDays}/${p.workingDays}</td><td>${inr(p.gross)}</td><td>${inr(+p.pf+ +p.pt+ +p.tds)}</td><td><b>${inr(p.net)}</b></td><td><button class="b" onclick="open_(${i})">Payslip</button></td></tr>`}).join('')||'<tr><td colspan=7>No payslips for this month.</td></tr>'}</table></div>`}
+async function runPay(){try{const r=await api('/api/admin/payroll/run?month='+month+'&force=true','POST');alert(r.generated+' payslip(s) generated')}catch(e){alert(e.message)}draw()}
+draw();
+</script></body></html>
