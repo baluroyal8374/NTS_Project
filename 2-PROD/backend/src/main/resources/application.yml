@@ -1,0 +1,21 @@
+spring:
+  r2dbc:
+    url: r2dbc:mysql://${DB_HOST:localhost}:3306/nts_hrms
+    username: ${DB_USER:root}
+    password: ${DB_PASS:root}
+  sql:
+    init:
+      mode: always
+server:
+  port: ${PORT:9091}
+  error:
+    include-message: always
+app:
+  jwt-secret: ${JWT_SECRET:change-me-to-a-long-random-string-of-32+chars}
+  cors-origins: ${CORS_ORIGINS:https://narayanadritechnology.com,https://www.narayanadritechnology.com,http://localhost:9091,http://localhost:5500,http://127.0.0.1:5500,http://localhost:3000,http://localhost:8888}
+payroll:
+  basic-percent: 50          # basic as % of annual CTC (labour codes expect wages >= 50%)
+  hra-percent-of-basic: 40   # use 50 for metro cities
+  pf-cap-enabled: true       # employer/employee PF limited to 12% of Rs 15,000 wage ceiling
+  gratuity-enabled: true     # employer gratuity 4.81% of basic is carved out of CTC
+  insurance-annual: 0        # employer-paid group medical premium per year, if any

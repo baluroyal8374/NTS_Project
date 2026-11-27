@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /login.html
+Disallow: /api/
+
+Sitemap: https://narayanadritechnology.com/sitemap.xml
